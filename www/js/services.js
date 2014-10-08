@@ -3,16 +3,20 @@ angular.module('starter.services', [])
 /**
  * A simple example service that returns some data.
  */
-.factory('Friends', function() {
-  // Might use a resource here that returns a JSON array
+.factory('Friends', function($http) {
+  var friends = [];
+  $http.get('http://museum-jateng.com/v2/api/koleksi')
+  .success(function(data,status,headers,config){
+    console.log('data success');
+    console.log(data);
+  })
+  .error(function(data,status,headers,config){
+    console.log('data error');
 
-  // Some fake testing data
-  var friends = [
-    { id: 0, name: 'Scruff McGruff', text : 'some text' },
-    { id: 1, name: 'G.I. Joe', text : 'some text' },
-    { id: 2, name: 'Miss Frizzle', text : 'some text' },
-    { id: 3, name: 'Ash Ketchum', text : 'some text' }
-  ];
+  })
+  .then(function(result){
+    friends = result.data;
+  });
 
   return {
     all: function() {
